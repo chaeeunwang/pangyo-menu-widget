@@ -1,12 +1,7 @@
-import AppIntents
 import SwiftUI
 import WidgetKit
 
-private enum WidgetSelectionStore {
-    private static let selectedDateKey = "selected-menu-date"
-    private static let availableDatesKey = "available-menu-dates"
-    private static let lastTodayKey = "last-menu-today"
-
+extension WidgetSelectionStore {
     static func selectedIndex(in menus: [DailyMenu], today: Date = Date()) -> Int {
         guard !menus.isEmpty else { return 0 }
 
@@ -31,39 +26,8 @@ private enum WidgetSelectionStore {
         return index
     }
 
-    static func move(by offset: Int) {
-        let dates = UserDefaults.standard.stringArray(forKey: availableDatesKey) ?? []
-        guard !dates.isEmpty else { return }
-
-        let selected = UserDefaults.standard.string(forKey: selectedDateKey)
-        let currentIndex = selected.flatMap { dates.firstIndex(of: $0) } ?? dates.count - 1
-        let nextIndex = min(max(0, currentIndex + offset), dates.count - 1)
-        UserDefaults.standard.set(dates[nextIndex], forKey: selectedDateKey)
-        WidgetCenter.shared.reloadTimelines(ofKind: PangyoMenuWidget.kind)
-    }
-
     private static func dateKey(_ date: Date) -> String {
         MenuCalendar.dateKey(for: date)
-    }
-}
-
-struct PreviousMenuDayIntent: AppIntent {
-    static let title: LocalizedStringResource = "이전 날짜"
-    static let openAppWhenRun = false
-
-    func perform() async throws -> some IntentResult {
-        WidgetSelectionStore.move(by: -1)
-        return .result()
-    }
-}
-
-struct NextMenuDayIntent: AppIntent {
-    static let title: LocalizedStringResource = "다음 날짜"
-    static let openAppWhenRun = false
-
-    func perform() async throws -> some IntentResult {
-        WidgetSelectionStore.move(by: 1)
-        return .result()
     }
 }
 
@@ -152,25 +116,19 @@ struct MenuWidgetProvider: TimelineProvider {
 
 struct PangyoMenuWidgetView: View {
     let entry: MenuWidgetEntry
-    private static let fullMenuRoute = URL(string: "pangyo-menu://full-menu")!
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            Link(destination: Self.fullMenuRoute) {
-                linkedContent
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
+            widgetContent
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-            if entry.selectedMenu != nil {
-                navigationButtons
-            }
+            if entry.selectedMenu != nil { navigationButtons }
         }
+        .foregroundStyle(.white)
     }
 
     @ViewBuilder
-    private var linkedContent: some View {
+    private var widgetContent: some View {
         if let menu = entry.selectedMenu {
             VStack(alignment: .leading, spacing: 10) {
                 header(for: menu)
@@ -216,7 +174,7 @@ struct PangyoMenuWidgetView: View {
             .opacity(entry.selectedIndex + 1 >= entry.menus.count ? 0.35 : 1)
             .accessibilityLabel("다음 날짜")
         }
-        .foregroundStyle(.secondary)
+        .foregroundStyle(.white.opacity(0.72))
     }
 
     private func mealSection(title: String, symbol: String, menu: String?) -> some View {
@@ -225,10 +183,11 @@ struct PangyoMenuWidgetView: View {
                 .font(.headline)
 
             Divider()
+                .overlay(.white.opacity(0.2))
 
             Text(menu ?? "등록된 메뉴가 없습니다.")
                 .font(.callout)
-                .foregroundStyle(menu == nil ? .secondary : .primary)
+                .foregroundStyle(.white.opacity(menu == nil ? 0.65 : 1))
                 .lineLimit(5)
                 .minimumScaleFactor(0.82)
                 .allowsTightening(true)
@@ -238,7 +197,10 @@ struct PangyoMenuWidgetView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .background(
+            .white.opacity(0.11),
+            in: RoundedRectangle(cornerRadius: 12, style: .continuous)
+        )
     }
 
     private static let dateFormatter: DateFormatter = {
@@ -252,15 +214,21 @@ struct PangyoMenuWidgetView: View {
 
 @main
 struct PangyoMenuWidget: Widget {
-    static let kind = "com.chaeeun.pangyo-menu-widget.today"
+    static let kind = WidgetSelectionStore.widgetKind
+    private static let fullMenuRoute = URL(string: "pangyo-menu://full-menu")!
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: Self.kind, provider: MenuWidgetProvider()) { entry in
             PangyoMenuWidgetView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+                .environment(\.colorScheme, .dark)
+                .containerBackground(for: .widget) {
+                    Color(red: 0.02, green: 0.24, blue: 0.36)
+                }
+                .widgetURL(Self.fullMenuRoute)
         }
         .configurationDisplayName("오늘의 메뉴")
         .description("판교캠의 금일 중식과 석식 메뉴를 표시합니다.")
         .supportedFamilies([.systemLarge])
+        .containerBackgroundRemovable(false)
     }
 }

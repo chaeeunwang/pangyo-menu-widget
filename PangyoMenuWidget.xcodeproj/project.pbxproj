@@ -14,6 +14,8 @@
 		A10000000000000000000005 /* SKALAMenuClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* SKALAMenuClient.swift */; };
 		A10000000000000000000006 /* MenuWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* MenuWidgetExtension.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A10000000000000000000007 /* PangyoMenu.icns in Resources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* PangyoMenu.icns */; };
+		A10000000000000000000008 /* MenuWidgetIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000C /* MenuWidgetIntents.swift */; };
+		A10000000000000000000009 /* MenuWidgetIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000C /* MenuWidgetIntents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,7 @@
 		A20000000000000000000009 /* PangyoMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PangyoMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2000000000000000000000A /* MenuWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = wrapper.app-extension; includeInIndex = 0; path = MenuWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2000000000000000000000B /* PangyoMenu.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = PangyoMenu.icns; sourceTree = "<group>"; };
+		A2000000000000000000000C /* MenuWidgetIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuWidgetIntents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +81,7 @@
 				A60000000000000000000003 /* WidgetHost */,
 				A60000000000000000000004 /* WidgetExtension */,
 				A60000000000000000000005 /* MenuWidgetCore */,
+				A60000000000000000000007 /* Shared */,
 				A60000000000000000000006 /* Resources */,
 				A60000000000000000000002 /* Products */,
 			);
@@ -128,6 +132,14 @@
 				A2000000000000000000000B /* PangyoMenu.icns */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		A60000000000000000000007 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A2000000000000000000000C /* MenuWidgetIntents.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000001 /* MenuWidgetHostApp.swift in Sources */,
+				A10000000000000000000008 /* MenuWidgetIntents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000002 /* MenuWidgetExtension.swift in Sources */,
+				A10000000000000000000009 /* MenuWidgetIntents.swift in Sources */,
 				A10000000000000000000003 /* MenuModels.swift in Sources */,
 				A10000000000000000000004 /* MenuCalendar.swift in Sources */,
 				A10000000000000000000005 /* SKALAMenuClient.swift in Sources */,
@@ -298,7 +312,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
 				EXECUTABLE_NAME = MenuWidgetHost;
@@ -308,7 +322,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.4;
+				MARKETING_VERSION = 2.2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaeeun.pangyo-menu-widget;
 				PRODUCT_MODULE_NAME = MenuWidgetHost;
 				PRODUCT_NAME = PangyoMenu;
@@ -323,7 +337,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
 				EXECUTABLE_NAME = MenuWidgetHost;
@@ -333,7 +347,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.4;
+				MARKETING_VERSION = 2.2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaeeun.pangyo-menu-widget;
 				PRODUCT_MODULE_NAME = MenuWidgetHost;
 				PRODUCT_NAME = PangyoMenu;
@@ -349,7 +363,7 @@
 				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -359,7 +373,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.4;
+				MARKETING_VERSION = 2.2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaeeun.pangyo-menu-widget.extension;
 				PRODUCT_MODULE_NAME = MenuWidgetExtension;
 				PRODUCT_NAME = MenuWidgetExtension;
@@ -376,7 +390,7 @@
 				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -386,7 +400,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.4;
+				MARKETING_VERSION = 2.2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaeeun.pangyo-menu-widget.extension;
 				PRODUCT_MODULE_NAME = MenuWidgetExtension;
 				PRODUCT_NAME = MenuWidgetExtension;
