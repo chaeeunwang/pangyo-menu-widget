@@ -152,8 +152,25 @@ struct MenuWidgetProvider: TimelineProvider {
 
 struct PangyoMenuWidgetView: View {
     let entry: MenuWidgetEntry
+    private static let fullMenuRoute = URL(string: "pangyo-menu://full-menu")!
 
     var body: some View {
+        ZStack(alignment: .topTrailing) {
+            Link(destination: Self.fullMenuRoute) {
+                linkedContent
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+
+            if entry.selectedMenu != nil {
+                navigationButtons
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var linkedContent: some View {
         if let menu = entry.selectedMenu {
             VStack(alignment: .leading, spacing: 10) {
                 header(for: menu)
@@ -175,27 +192,31 @@ struct PangyoMenuWidgetView: View {
                 .font(.title3.weight(.semibold))
                 .lineLimit(1)
 
-            Spacer(minLength: 8)
-
-            HStack(spacing: 4) {
-                Button(intent: PreviousMenuDayIntent()) {
-                    Image(systemName: "chevron.left")
-                        .frame(width: 24, height: 24)
-                }
-                .buttonStyle(.plain)
-                .disabled(entry.selectedIndex <= 0)
-                .accessibilityLabel("이전 날짜")
-
-                Button(intent: NextMenuDayIntent()) {
-                    Image(systemName: "chevron.right")
-                        .frame(width: 24, height: 24)
-                }
-                .buttonStyle(.plain)
-                .disabled(entry.selectedIndex + 1 >= entry.menus.count)
-                .accessibilityLabel("다음 날짜")
-            }
-            .foregroundStyle(.secondary)
+            Spacer(minLength: 76)
         }
+    }
+
+    private var navigationButtons: some View {
+        HStack(spacing: 4) {
+            Button(intent: PreviousMenuDayIntent()) {
+                Image(systemName: "chevron.left")
+                    .frame(width: 30, height: 24)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .opacity(entry.selectedIndex <= 0 ? 0.35 : 1)
+            .accessibilityLabel("이전 날짜")
+
+            Button(intent: NextMenuDayIntent()) {
+                Image(systemName: "chevron.right")
+                    .frame(width: 30, height: 24)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .opacity(entry.selectedIndex + 1 >= entry.menus.count ? 0.35 : 1)
+            .accessibilityLabel("다음 날짜")
+        }
+        .foregroundStyle(.secondary)
     }
 
     private func mealSection(title: String, symbol: String, menu: String?) -> some View {
@@ -232,13 +253,11 @@ struct PangyoMenuWidgetView: View {
 @main
 struct PangyoMenuWidget: Widget {
     static let kind = "com.chaeeun.pangyo-menu-widget.today"
-    private static let fullMenuRoute = URL(string: "pangyo-menu://full-menu")!
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: Self.kind, provider: MenuWidgetProvider()) { entry in
             PangyoMenuWidgetView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
-                .widgetURL(Self.fullMenuRoute)
         }
         .configurationDisplayName("오늘의 메뉴")
         .description("판교캠의 금일 중식과 석식 메뉴를 표시합니다.")
