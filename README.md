@@ -26,7 +26,7 @@
 터미널을 열고 다음 명령을 한 번 실행합니다.
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/chaeeunwang/pangyo-menu-widget/main/scripts/install.sh | /bin/zsh
+/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/chaeeunwang/pangyo-menu-widget/main/scripts/install.sh)"
 ```
 
 설치 스크립트는 GitHub Releases에서 사전 빌드된 최신 앱과 SHA-256 체크섬을 내려받아 검증합니다. 앱은 `~/Applications/PangyoMenu.app`에 설치되고 위젯 확장은 macOS에 자동 등록됩니다.
@@ -99,9 +99,8 @@ https://skala-lunch.ewkimhyunsu11.workers.dev/api/menus/current
 
 ## 문제 해결
 
-- 터미널에 `>....`가 나타나거나 `zsh: event not found: /bin/zsh`가 출력되면 `Control-C`를 눌러 입력을 취소하세요. 새 터미널을 열고 위 **설치** 항목의 한 줄짜리 명령만 다시 복사해 실행하세요. `install.sh`의 본문 전체를 터미널에 붙여넣으면 안 됩니다.
 - 다운로드 오류가 발생하면 인터넷 연결과 [GitHub Releases](https://github.com/chaeeunwang/pangyo-menu-widget/releases)를 확인하세요.
-- 위젯 목록에 보이지 않으면 위 **설치** 항목의 명령을 다시 실행한 뒤 위젯 편집 창을 다시 여세요.
+- 위젯 목록에 보이지 않으면 `./scripts/install.sh`를 다시 실행한 뒤 위젯 편집 창을 다시 여세요.
 - 이전 메뉴가 남아 있으면 위젯을 제거한 뒤 다시 추가하세요.
 - 위젯이 빈 회색으로 보이면 설치 명령을 다시 실행해 중복 등록된 개발용 위젯을 정리하세요.
 - 회사 보안 정책에 따라 외부 앱 실행이 차단되면 사내 보안 담당자에게 문의하세요.
