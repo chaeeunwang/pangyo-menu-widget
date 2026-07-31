@@ -6,7 +6,7 @@
 
 - 중식·석식과 후식 표시
 - 좌우 버튼으로 금주의 다른 날짜 탐색
-- 위젯을 클릭해 전체 식단표 열기
+- 위젯을 클릭해 Safari에서 전체 식단표 열기
 - 날짜가 바뀌면 오늘 메뉴로 자동 이동
 - 15분마다 식단 자동 갱신
 - macOS 기본 위젯 UI와 대형 위젯 크기 지원
@@ -100,6 +100,7 @@ https://skala-lunch.ewkimhyunsu11.workers.dev/api/menus/current
 - 다운로드 오류가 발생하면 인터넷 연결과 [GitHub Releases](https://github.com/chaeeunwang/pangyo-menu-widget/releases)를 확인하세요.
 - 위젯 목록에 보이지 않으면 `./scripts/install.sh`를 다시 실행한 뒤 위젯 편집 창을 다시 여세요.
 - 이전 메뉴가 남아 있으면 위젯을 제거한 뒤 다시 추가하세요.
+- 위젯이 빈 회색으로 보이면 설치 명령을 다시 실행해 중복 등록된 개발용 위젯을 정리하세요.
 - 회사 보안 정책에 따라 외부 앱 실행이 차단되면 사내 보안 담당자에게 문의하세요.
 
 ## 배포와 보안

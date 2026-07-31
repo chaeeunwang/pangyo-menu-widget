@@ -232,13 +232,13 @@ struct PangyoMenuWidgetView: View {
 @main
 struct PangyoMenuWidget: Widget {
     static let kind = "com.chaeeun.pangyo-menu-widget.today"
-    private static let fullMenuURL = URL(string: "https://skala-lunch.ewkimhyunsu11.workers.dev/")!
+    private static let fullMenuRoute = URL(string: "pangyo-menu://full-menu")!
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: Self.kind, provider: MenuWidgetProvider()) { entry in
             PangyoMenuWidgetView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
-                .widgetURL(Self.fullMenuURL)
+                .widgetURL(Self.fullMenuRoute)
         }
         .configurationDisplayName("오늘의 메뉴")
         .description("판교캠의 금일 중식과 석식 메뉴를 표시합니다.")

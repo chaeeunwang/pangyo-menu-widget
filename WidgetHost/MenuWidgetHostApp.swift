@@ -1,6 +1,34 @@
 import AppKit
 import SwiftUI
 
+private enum MenuRoute {
+    static let fullMenu = URL(string: "https://skala-lunch.ewkimhyunsu11.workers.dev/")!
+    private static let safari = URL(fileURLWithPath: "/Applications/Safari.app")
+
+    static func open(_ route: URL) {
+        guard route.scheme == "pangyo-menu", route.host == "full-menu" else { return }
+        openFullMenu()
+    }
+
+    static func openFullMenu() {
+        NSApplication.shared.hide(nil)
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = true
+        NSWorkspace.shared.open(
+            [fullMenu],
+            withApplicationAt: safari,
+            configuration: configuration
+        ) { _, error in
+            if error != nil {
+                NSWorkspace.shared.open(fullMenu)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                NSApplication.shared.terminate(nil)
+            }
+        }
+    }
+}
+
 @main
 struct MenuWidgetHostApp: App {
     var body: some Scene {
@@ -18,13 +46,12 @@ struct MenuWidgetHostApp: App {
                     .foregroundStyle(.secondary)
 
                 Button("전체 식단표 열기") {
-                    NSWorkspace.shared.open(
-                        URL(string: "https://skala-lunch.ewkimhyunsu11.workers.dev/")!
-                    )
+                    MenuRoute.openFullMenu()
                 }
             }
             .padding(36)
             .frame(width: 420, height: 300)
+            .onOpenURL(perform: MenuRoute.open)
         }
         .windowResizability(.contentSize)
     }

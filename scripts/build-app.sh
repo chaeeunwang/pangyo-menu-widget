@@ -5,6 +5,15 @@ project_dir=${0:A:h:h}
 derived_data="$project_dir/.build/xcode"
 built_app="$derived_data/Build/Products/Release/PangyoMenu.app"
 output_app="$project_dir/dist/PangyoMenu.app"
+launch_services='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister'
+
+cleanup_development_registration() {
+  /usr/bin/pluginkit -r "$built_app/Contents/PlugIns/MenuWidgetExtension.appex" 2>/dev/null || true
+  "$launch_services" -u "$built_app/Contents/PlugIns/MenuWidgetExtension.appex" 2>/dev/null || true
+  "$launch_services" -u "$built_app" 2>/dev/null || true
+}
+
+trap cleanup_development_registration EXIT INT TERM
 
 if ! command -v xcodebuild >/dev/null 2>&1; then
   print -u2 "Xcode를 설치한 뒤 다시 실행해주세요."

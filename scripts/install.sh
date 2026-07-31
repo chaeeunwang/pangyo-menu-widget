@@ -78,6 +78,17 @@ extension_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$source_e
 [[ "$extension_id" == "$extension_identifier" ]] || fail "위젯 식별자가 올바르지 않습니다."
 codesign --verify --deep --strict "$source_app" || fail "앱 코드 서명이 유효하지 않습니다."
 
+# 같은 식별자의 개발용 빌드가 남아 있으면 macOS가 잘못된 위젯을 실행할 수 있습니다.
+while IFS= read -r registered_extension; do
+  [[ "$registered_extension" == */Contents/PlugIns/MenuWidgetExtension.appex ]] || continue
+  /usr/bin/pluginkit -r "$registered_extension" 2>/dev/null || true
+  "$launch_services" -u "$registered_extension" 2>/dev/null || true
+  "$launch_services" -u "${registered_extension%%/Contents/PlugIns/*}" 2>/dev/null || true
+done < <(
+  /usr/bin/pluginkit -m -A -D -vvv -i "$extension_identifier" 2>/dev/null \
+    | sed -n 's/^[[:space:]]*Path = //p'
+)
+
 mkdir -p "$applications_dir"
 rm -rf "$staging_app"
 ditto "$source_app" "$staging_app"
