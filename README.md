@@ -14,22 +14,25 @@
 ## 요구 사항
 
 - macOS 14 이상
-- Xcode 16 이상
 - 인터넷 연결
 
-Apple Developer Program 유료 멤버십은 필요하지 않습니다. 각 사용자의 Mac에서 소스를 직접 빌드하고 로컬 서명하여 설치합니다.
+일반 설치에는 Xcode, Git, Apple Developer 계정이 필요하지 않습니다. Apple Silicon과 Intel Mac을 모두 지원합니다.
 
 ## 설치
 
-1. 이 저장소를 `git clone`하거나 GitHub의 **Code → Download ZIP**으로 내려받습니다.
-2. 터미널에서 프로젝트 폴더로 이동합니다.
-3. 다음 명령을 실행합니다.
+터미널을 열고 다음 명령을 한 번 실행합니다.
+
+```sh
+/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/chaeeunwang/pangyo-menu-widget/main/scripts/install.sh)"
+```
+
+설치 스크립트는 GitHub Releases에서 사전 빌드된 최신 앱과 SHA-256 체크섬을 내려받아 검증합니다. 앱은 `~/Applications/PangyoMenu.app`에 설치되고 위젯 확장은 macOS에 자동 등록됩니다.
+
+원격 스크립트를 바로 실행하고 싶지 않다면 저장소의 **Code → Download ZIP**을 선택해 압축을 풀고, 해당 폴더에서 다음 명령을 실행해도 됩니다.
 
 ```sh
 ./scripts/install.sh
 ```
-
-설치 스크립트는 앱을 빌드한 뒤 `~/Applications/PangyoMenu.app`에 설치하고 위젯 확장을 macOS에 등록합니다.
 
 설치가 끝나면:
 
@@ -38,7 +41,11 @@ Apple Developer Program 유료 멤버십은 필요하지 않습니다. 각 사�
 3. **오늘의 메뉴**를 검색합니다.
 4. 위젯을 바탕화면에 추가합니다.
 
+새 버전으로 업데이트할 때도 같은 설치 명령을 다시 실행하면 됩니다.
+
 ## 개발
+
+개발과 소스 빌드에는 Xcode 16 이상이 필요합니다.
 
 앱만 빌드하려면 다음 명령을 사용합니다.
 
@@ -47,6 +54,12 @@ Apple Developer Program 유료 멤버십은 필요하지 않습니다. 각 사�
 ```
 
 빌드 결과는 `dist/PangyoMenu.app`에 생성됩니다.
+
+직접 빌드한 앱을 설치하려면 다음 명령을 사용합니다.
+
+```sh
+./scripts/install-from-source.sh
+```
 
 사이트 API 응답 파싱과 날짜 처리를 테스트하려면 다음 명령을 사용합니다.
 
@@ -64,7 +77,9 @@ WidgetExtension/              WidgetKit 위젯 UI와 타임라인
 WidgetHost/                   설치 후 안내용 macOS 앱
 Tests/MenuWidgetCoreTests/    API 응답 및 날짜 처리 테스트
 scripts/build-app.sh          로컬 빌드
-scripts/install.sh            빌드·설치·위젯 등록
+scripts/install.sh            Release 다운로드·검증·설치
+scripts/install-from-source.sh  소스 빌드·설치
+scripts/package-release.sh    배포 ZIP과 체크섬 생성
 ```
 
 ## 데이터와 개인정보
@@ -79,13 +94,16 @@ https://skala-lunch.ewkimhyunsu11.workers.dev/api/menus/current
 
 ## 문제 해결
 
-- `xcode-select` 관련 오류가 나오면 Xcode를 한 번 실행한 뒤 다시 설치해보세요.
+- 다운로드 오류가 발생하면 인터넷 연결과 [GitHub Releases](https://github.com/chaeeunwang/pangyo-menu-widget/releases)를 확인하세요.
 - 위젯 목록에 보이지 않으면 `./scripts/install.sh`를 다시 실행한 뒤 위젯 편집 창을 다시 여세요.
 - 이전 메뉴가 남아 있으면 위젯을 제거한 뒤 다시 추가하세요.
+- 회사 보안 정책에 따라 외부 앱 실행이 차단되면 사내 보안 담당자에게 문의하세요.
 
-## 배포 참고
+## 배포와 보안
 
-이 저장소의 기본 배포 방식은 소스 빌드입니다. GitHub Releases에 미공증 `.app` 파일을 그대로 올리면 다른 Mac의 Gatekeeper가 실행을 제한할 수 있습니다. 서명된 바이너리를 배포하려면 Apple Developer Program의 Developer ID와 공증 절차가 필요합니다.
+Release 앱은 GitHub Actions의 macOS 환경에서 빌드하고 임시(ad-hoc) 코드 서명합니다. 설치기는 HTTPS로 받은 ZIP의 SHA-256 체크섬과 앱 번들 식별자, 코드 서명을 모두 확인합니다. 현재 Apple Developer Program의 Developer ID 서명과 공증은 사용하지 않습니다.
+
+설치기는 이 앱에 한해서만 다운로드 격리 속성을 제거합니다. 스크립트와 소스는 실행 전에 직접 검토할 수 있으며, 조직의 보안 정책이 미공증 앱을 차단하는 경우 설치하지 마세요.
 
 ## 라이선스
 

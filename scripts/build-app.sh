@@ -18,6 +18,8 @@ xcodebuild -quiet \
   -destination 'generic/platform=macOS' \
   -derivedDataPath "$derived_data" \
   clean build \
+  ARCHS='arm64 x86_64' \
+  ONLY_ACTIVE_ARCH=NO \
   CODE_SIGN_IDENTITY=- \
   CODE_SIGNING_REQUIRED=YES \
   CODE_SIGNING_ALLOWED=YES \
@@ -32,4 +34,9 @@ rm -rf "$output_app"
 mkdir -p "$project_dir/dist"
 ditto "$built_app" "$output_app"
 codesign --verify --deep --strict "$output_app"
+
+host_architectures=$(lipo -archs "$output_app/Contents/MacOS/MenuWidgetHost")
+extension_architectures=$(lipo -archs "$output_app/Contents/PlugIns/MenuWidgetExtension.appex/Contents/MacOS/MenuWidgetExtension")
+[[ "$host_architectures" == *arm64* && "$host_architectures" == *x86_64* ]]
+[[ "$extension_architectures" == *arm64* && "$extension_architectures" == *x86_64* ]]
 print "$output_app"

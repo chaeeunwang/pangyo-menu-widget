@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: macos-15
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 코어 테스트
+        run: swift test
+
+      - name: 배포 앱 빌드 및 패키징
+        run: ./scripts/package-release.sh
+
+      - name: 태그와 앱 버전 확인
+        run: |
+          app_version=$(/usr/libexec/PlistBuddy \
+            -c 'Print :CFBundleShortVersionString' \
+            dist/PangyoMenu.app/Contents/Info.plist)
+          test "$GITHUB_REF_NAME" = "v$app_version"
+
+      - name: GitHub Release 생성
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" \
+              dist/release/PangyoMenu.app.zip \
+              dist/release/PangyoMenu.app.zip.sha256 \
+              --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" \
+              dist/release/PangyoMenu.app.zip \
+              dist/release/PangyoMenu.app.zip.sha256 \
+              --verify-tag \
+              --generate-notes \
+              --title "오늘의 메뉴 $GITHUB_REF_NAME"
+          fi

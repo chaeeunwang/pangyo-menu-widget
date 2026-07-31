@@ -14,6 +14,9 @@ jobs:
       - name: 저장소 체크아웃
         uses: actions/checkout@v4
 
+      - name: 설치 스크립트 문법 검사
+        run: zsh -n scripts/*.sh
+
       - name: 코어 테스트
         run: swift test
 
