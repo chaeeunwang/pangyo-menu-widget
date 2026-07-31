@@ -27,23 +27,23 @@ extension WidgetSelectionStore {
         guard !menus.isEmpty else { return 0 }
 
         let dates = menus.map { dateKey($0.date) }
-        UserDefaults.standard.set(dates, forKey: availableDatesKey)
+        preferences.set(dates, forKey: availableDatesKey)
 
         let todayKey = dateKey(today)
-        if UserDefaults.standard.string(forKey: lastTodayKey) != todayKey {
+        if preferences.string(forKey: lastTodayKey) != todayKey {
             let index = dates.firstIndex(of: todayKey) ?? max(0, dates.count - 1)
-            UserDefaults.standard.set(todayKey, forKey: lastTodayKey)
-            UserDefaults.standard.set(dates[index], forKey: selectedDateKey)
+            preferences.set(todayKey, forKey: lastTodayKey)
+            preferences.set(dates[index], forKey: selectedDateKey)
             return index
         }
 
-        if let selectedDate = UserDefaults.standard.string(forKey: selectedDateKey),
+        if let selectedDate = preferences.string(forKey: selectedDateKey),
            let index = dates.firstIndex(of: selectedDate) {
             return index
         }
 
         let index = dates.firstIndex(of: todayKey) ?? max(0, dates.count - 1)
-        UserDefaults.standard.set(dates[index], forKey: selectedDateKey)
+        preferences.set(dates[index], forKey: selectedDateKey)
         return index
     }
 
@@ -209,25 +209,43 @@ struct PangyoMenuWidgetView: View {
 
     private var navigationButtons: some View {
         HStack(spacing: 4) {
-            Button(intent: PreviousMenuDayIntent()) {
-                Image(systemName: "chevron.left")
-                    .frame(width: 30, height: 24)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-            .opacity(entry.selectedIndex <= 0 ? 0.35 : 1)
-            .accessibilityLabel("이전 날짜")
-
-            Button(intent: NextMenuDayIntent()) {
-                Image(systemName: "chevron.right")
-                    .frame(width: 30, height: 24)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-            .opacity(entry.selectedIndex + 1 >= entry.menus.count ? 0.35 : 1)
-            .accessibilityLabel("다음 날짜")
+            navigationControl(
+                symbol: "chevron.left",
+                offset: -1,
+                enabled: entry.selectedIndex > 0,
+                label: "이전 날짜"
+            )
+            navigationControl(
+                symbol: "chevron.right",
+                offset: 1,
+                enabled: entry.selectedIndex + 1 < entry.menus.count,
+                label: "다음 날짜"
+            )
         }
         .foregroundStyle(.white.opacity(0.72))
+    }
+
+    @ViewBuilder
+    private func navigationControl(
+        symbol: String,
+        offset: Int,
+        enabled: Bool,
+        label: String
+    ) -> some View {
+        let image = Image(systemName: symbol)
+            .frame(width: 30, height: 24)
+            .contentShape(Rectangle())
+
+        if enabled,
+           let route = URL(string: "pangyo-menu://select-date?offset=\(offset)") {
+            Link(destination: route) { image }
+                .buttonStyle(.plain)
+                .accessibilityLabel(label)
+        } else {
+            image
+                .opacity(0.35)
+                .accessibilityLabel(label)
+        }
     }
 
     private func mealSection(title: String, symbol: String, menu: String?) -> some View {

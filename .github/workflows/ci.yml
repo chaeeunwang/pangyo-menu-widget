@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   test-and-build:
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: 저장소 체크아웃
         uses: actions/checkout@v4

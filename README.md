@@ -7,6 +7,7 @@
 - 중식·석식과 후식 표시
 - 좌우 버튼으로 금주의 다른 날짜 탐색
 - 날짜 이동 버튼은 다른 페이지를 열지 않고 위젯 안에서만 동작
+- 메뉴 영역을 클릭해도 별도의 앱 창을 열지 않음
 - 날짜가 바뀌면 오늘 메뉴로 자동 이동
 - 15분마다 식단 자동 갱신
 - 일시적인 네트워크 오류에는 마지막으로 받은 메뉴를 표시하고 1분 후 재시도
@@ -78,7 +79,7 @@ Xcode에서 작업하려면 `PangyoMenuWidget.xcodeproj`를 열고 `MenuWidgetHo
 ```text
 Sources/MenuWidgetCore/       식단 API 클라이언트와 공용 모델
 WidgetExtension/              WidgetKit 위젯 UI와 타임라인
-WidgetHost/                   설치 후 안내용 macOS 앱
+WidgetHost/                   날짜 이동을 창 없이 처리하는 macOS 앱
 Tests/MenuWidgetCoreTests/    API 응답 및 날짜 처리 테스트
 scripts/build-app.sh          로컬 빌드
 scripts/install.sh            Release 다운로드·검증·설치
@@ -94,7 +95,7 @@ scripts/package-release.sh    배포 ZIP과 체크섬 생성
 https://skala-lunch.ewkimhyunsu11.workers.dev/api/menus/current
 ```
 
-앱에는 Slack 연동 코드가 없으며 Slack 로그인, 워크스페이스 권한, API 토큰을 요구하지 않습니다. 일시적인 연결 오류에 대비해 최근 7일 이내에 성공적으로 받은 식단만 Mac의 위젯 전용 저장소에 보관합니다. 식단 사이트가 장기간 중단되거나 응답 형식을 변경하면 위젯에서 메뉴를 불러오지 못할 수 있습니다.
+앱에는 Slack 연동 코드가 없으며 Slack 로그인, 워크스페이스 권한, API 토큰을 요구하지 않습니다. 일시적인 연결 오류에 대비해 최근 7일 이내에 성공적으로 받은 식단과 위젯에서 선택한 날짜만 Mac의 위젯 전용 저장소에 보관합니다. 식단 사이트가 장기간 중단되거나 응답 형식을 변경하면 위젯에서 메뉴를 불러오지 못할 수 있습니다.
 
 ## 문제 해결
 

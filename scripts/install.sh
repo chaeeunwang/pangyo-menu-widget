@@ -101,6 +101,7 @@ codesign --verify --deep --strict "$staging_app" || fail "설치 준비 중 코�
 "$launch_services" -u "$source_app" 2>/dev/null || true
 
 pkill -x MenuWidgetHost 2>/dev/null || true
+pkill -x MenuWidgetExtension 2>/dev/null || true
 
 if [[ -d "$installed_app" ]]; then
   /usr/bin/pluginkit -r "$installed_extension" 2>/dev/null || true
