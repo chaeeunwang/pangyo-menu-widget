@@ -47,14 +47,15 @@ else
   archive_path="$download_dir/$asset_name"
   checksum_path="$archive_path.sha256"
   extract_dir="$download_dir/extracted"
+  cache_buster=$(date +%s)
 
   print "오늘의 메뉴 최신 버전을 내려받는 중입니다..."
   curl --fail --location --silent --show-error \
     --proto '=https' --tlsv1.2 --retry 3 \
-    --output "$archive_path" "$release_base/$asset_name"
+    --output "$archive_path" "$release_base/$asset_name?cache=$cache_buster"
   curl --fail --location --silent --show-error \
     --proto '=https' --tlsv1.2 --retry 3 \
-    --output "$checksum_path" "$release_base/$asset_name.sha256"
+    --output "$checksum_path" "$release_base/$asset_name.sha256?cache=$cache_buster"
 
   expected_hash=$(awk '{print $1}' "$checksum_path")
   actual_hash=$(shasum -a 256 "$archive_path" | awk '{print $1}')
