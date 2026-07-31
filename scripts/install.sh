@@ -106,8 +106,6 @@ killall chronod 2>/dev/null || true
 killall NotificationCenter 2>/dev/null || true
 killall Dock 2>/dev/null || true
 
-open "$installed_app"
-
 print ""
 print "설치 완료: $installed_app"
 print "바탕화면을 우클릭하고 ‘위젯 편집’에서 ‘오늘의 메뉴’를 추가하세요."
