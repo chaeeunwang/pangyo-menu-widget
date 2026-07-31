@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: macos-15
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 코어 테스트
+        run: swift test
+
+      - name: macOS 위젯 빌드
+        run: |
+          xcodebuild \
+            -project PangyoMenuWidget.xcodeproj \
+            -scheme MenuWidgetHost \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -derivedDataPath .build/xcode-ci \
+            CODE_SIGNING_ALLOWED=NO \
+            build

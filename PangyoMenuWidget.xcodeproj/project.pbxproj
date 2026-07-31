@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* MenuWidgetHostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* MenuWidgetHostApp.swift */; };
+		A10000000000000000000002 /* MenuWidgetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* MenuWidgetExtension.swift */; };
+		A10000000000000000000003 /* MenuModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* MenuModels.swift */; };
+		A10000000000000000000004 /* MenuCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* MenuCalendar.swift */; };
+		A10000000000000000000005 /* SKALAMenuClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* SKALAMenuClient.swift */; };
+		A10000000000000000000006 /* MenuWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* MenuWidgetExtension.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A30000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A90000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A80000000000000000000002;
+			remoteInfo = MenuWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A40000000000000000000001 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A10000000000000000000006 /* MenuWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A20000000000000000000001 /* MenuWidgetHostApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuWidgetHostApp.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20000000000000000000003 /* MenuWidgetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuWidgetExtension.swift; sourceTree = "<group>"; };
+		A20000000000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20000000000000000000005 /* WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.entitlements; sourceTree = "<group>"; };
+		A20000000000000000000006 /* MenuModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModels.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* MenuCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCalendar.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* SKALAMenuClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKALAMenuClient.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* PangyoMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PangyoMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000000000000000000000A /* MenuWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = wrapper.app-extension; includeInIndex = 0; path = MenuWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A50000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A50000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A60000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A60000000000000000000003 /* WidgetHost */,
+				A60000000000000000000004 /* WidgetExtension */,
+				A60000000000000000000005 /* MenuWidgetCore */,
+				A60000000000000000000002 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A60000000000000000000002 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000009 /* PangyoMenu.app */,
+				A2000000000000000000000A /* MenuWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A60000000000000000000003 /* WidgetHost */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000001 /* MenuWidgetHostApp.swift */,
+				A20000000000000000000002 /* Info.plist */,
+			);
+			path = WidgetHost;
+			sourceTree = "<group>";
+		};
+		A60000000000000000000004 /* WidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000003 /* MenuWidgetExtension.swift */,
+				A20000000000000000000004 /* Info.plist */,
+				A20000000000000000000005 /* WidgetExtension.entitlements */,
+			);
+			path = WidgetExtension;
+			sourceTree = "<group>";
+		};
+		A60000000000000000000005 /* MenuWidgetCore */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000006 /* MenuModels.swift */,
+				A20000000000000000000007 /* MenuCalendar.swift */,
+				A20000000000000000000008 /* SKALAMenuClient.swift */,
+			);
+			name = MenuWidgetCore;
+			path = Sources/MenuWidgetCore;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A80000000000000000000001 /* MenuWidgetHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB0000000000000000000002 /* Build configuration list for PBXNativeTarget "MenuWidgetHost" */;
+			buildPhases = (
+				A70000000000000000000001 /* Sources */,
+				A50000000000000000000001 /* Frameworks */,
+				A70000000000000000000003 /* Resources */,
+				A40000000000000000000001 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A30000000000000000000002 /* PBXTargetDependency */,
+			);
+			name = MenuWidgetHost;
+			productName = MenuWidgetHost;
+			productReference = A20000000000000000000009 /* PangyoMenu.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A80000000000000000000002 /* MenuWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB0000000000000000000003 /* Build configuration list for PBXNativeTarget "MenuWidgetExtension" */;
+			buildPhases = (
+				A70000000000000000000002 /* Sources */,
+				A50000000000000000000002 /* Frameworks */,
+				A70000000000000000000004 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MenuWidgetExtension;
+			productName = MenuWidgetExtension;
+			productReference = A2000000000000000000000A /* MenuWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A90000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					A80000000000000000000001 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					A80000000000000000000002 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
+			};
+			buildConfigurationList = AB0000000000000000000001 /* Build configuration list for PBXProject "PangyoMenuWidget" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ko;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				ko,
+				en,
+				Base,
+			);
+			mainGroup = A60000000000000000000001;
+			productRefGroup = A60000000000000000000002 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A80000000000000000000001 /* MenuWidgetHost */,
+				A80000000000000000000002 /* MenuWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A70000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A70000000000000000000004 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A70000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* MenuWidgetHostApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A70000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000002 /* MenuWidgetExtension.swift in Sources */,
+				A10000000000000000000003 /* MenuModels.swift in Sources */,
+				A10000000000000000000004 /* MenuCalendar.swift in Sources */,
+				A10000000000000000000005 /* SKALAMenuClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A30000000000000000000002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A80000000000000000000002 /* MenuWidgetExtension */;
+			targetProxy = A30000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AA0000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AA0000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 5;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				EXECUTABLE_NAME = MenuWidgetHost;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WidgetHost/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaeeun.pangyo-menu-widget;
+				PRODUCT_MODULE_NAME = MenuWidgetHost;
+				PRODUCT_NAME = PangyoMenu;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 5;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				EXECUTABLE_NAME = MenuWidgetHost;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WidgetHost/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaeeun.pangyo-menu-widget;
+				PRODUCT_MODULE_NAME = MenuWidgetHost;
+				PRODUCT_NAME = PangyoMenu;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		AA0000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 5;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaeeun.pangyo-menu-widget.extension;
+				PRODUCT_MODULE_NAME = MenuWidgetExtension;
+				PRODUCT_NAME = MenuWidgetExtension;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 5;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaeeun.pangyo-menu-widget.extension;
+				PRODUCT_MODULE_NAME = MenuWidgetExtension;
+				PRODUCT_NAME = MenuWidgetExtension;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AB0000000000000000000001 /* Build configuration list for PBXProject "PangyoMenuWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000001 /* Debug */,
+				AA0000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB0000000000000000000002 /* Build configuration list for PBXNativeTarget "MenuWidgetHost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000003 /* Debug */,
+				AA0000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB0000000000000000000003 /* Build configuration list for PBXNativeTarget "MenuWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000005 /* Debug */,
+				AA0000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A90000000000000000000001 /* Project object */;
+}
