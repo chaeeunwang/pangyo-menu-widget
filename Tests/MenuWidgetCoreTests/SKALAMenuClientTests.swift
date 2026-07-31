@@ -29,6 +29,16 @@ final class SKALAMenuClientTests: XCTestCase {
         XCTAssertEqual(MenuCalendar.dateKey(for: utcDate), "2026-07-31")
     }
 
+    func testDailyMenusRoundTripThroughCacheEncoding() throws {
+        let fetchedAt = Date(timeIntervalSince1970: 1_785_456_000)
+        let menus = try SKALAMenuClient().decodeWeek(Self.fixture, now: fetchedAt)
+
+        let data = try JSONEncoder().encode(menus)
+        let decodedMenus = try JSONDecoder().decode([DailyMenu].self, from: data)
+
+        XCTAssertEqual(decodedMenus, menus)
+    }
+
     private static let fixture = Data(
         """
         {

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct DailyMenu: Equatable, Sendable {
+public struct DailyMenu: Codable, Equatable, Sendable {
     public let date: Date
     public let lunch: String?
     public let dinner: String?

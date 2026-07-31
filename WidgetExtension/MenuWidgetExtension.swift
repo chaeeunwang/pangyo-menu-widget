@@ -1,6 +1,27 @@
 import SwiftUI
 import WidgetKit
 
+private enum MenuCache {
+    private static let cacheKey = "cached-weekly-menus"
+    private static let maximumAge: TimeInterval = 7 * 24 * 60 * 60
+
+    static func save(_ menus: [DailyMenu]) {
+        guard !menus.isEmpty, let data = try? JSONEncoder().encode(menus) else { return }
+        UserDefaults.standard.set(data, forKey: cacheKey)
+    }
+
+    static func load(now: Date = Date()) -> [DailyMenu]? {
+        guard let data = UserDefaults.standard.data(forKey: cacheKey),
+              let menus = try? JSONDecoder().decode([DailyMenu].self, from: data),
+              !menus.isEmpty,
+              let fetchedAt = menus.map(\.fetchedAt).max(),
+              now.timeIntervalSince(fetchedAt) <= maximumAge else {
+            return nil
+        }
+        return menus
+    }
+}
+
 extension WidgetSelectionStore {
     static func selectedIndex(in menus: [DailyMenu], today: Date = Date()) -> Int {
         guard !menus.isEmpty else { return 0 }
@@ -36,6 +57,7 @@ struct MenuWidgetEntry: TimelineEntry {
     let menus: [DailyMenu]
     let selectedIndex: Int
     let errorMessage: String?
+    let shouldRetrySoon: Bool
 
     var selectedMenu: DailyMenu? {
         guard menus.indices.contains(selectedIndex) else { return nil }
@@ -60,8 +82,8 @@ struct MenuWidgetProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<MenuWidgetEntry>) -> Void) {
         loadEntry { entry in
-            let refreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())
-                ?? Date().addingTimeInterval(15 * 60)
+            let refreshInterval: TimeInterval = entry.shouldRetrySoon ? 60 : 15 * 60
+            let refreshDate = Date().addingTimeInterval(refreshInterval)
             completion(Timeline(entries: [entry], policy: .after(refreshDate)))
         }
     }
@@ -69,27 +91,57 @@ struct MenuWidgetProvider: TimelineProvider {
     private func loadEntry(completion: @escaping (MenuWidgetEntry) -> Void) {
         Task {
             do {
-                let menus = try await client.fetchWeek()
+                let menus = try await fetchMenusWithRetry()
+                guard !menus.isEmpty else { throw SKALAMenuClientError.invalidResponse }
+                MenuCache.save(menus)
                 let selectedIndex = WidgetSelectionStore.selectedIndex(in: menus)
                 completion(
                     MenuWidgetEntry(
                         date: Date(),
                         menus: menus,
                         selectedIndex: selectedIndex,
-                        errorMessage: nil
+                        errorMessage: nil,
+                        shouldRetrySoon: false
                     )
                 )
             } catch {
+                if let menus = MenuCache.load() {
+                    let selectedIndex = WidgetSelectionStore.selectedIndex(in: menus)
+                    completion(
+                        MenuWidgetEntry(
+                            date: Date(),
+                            menus: menus,
+                            selectedIndex: selectedIndex,
+                            errorMessage: nil,
+                            shouldRetrySoon: true
+                        )
+                    )
+                    return
+                }
+
                 completion(
                     MenuWidgetEntry(
                         date: Date(),
                         menus: [],
                         selectedIndex: 0,
-                        errorMessage: error.localizedDescription
+                        errorMessage: error.localizedDescription,
+                        shouldRetrySoon: true
                     )
                 )
             }
         }
+    }
+
+    private func fetchMenusWithRetry() async throws -> [DailyMenu] {
+        for attempt in 0..<2 {
+            do {
+                return try await client.fetchWeek()
+            } catch {
+                guard attempt == 0 else { throw error }
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+            }
+        }
+        throw SKALAMenuClientError.invalidResponse
     }
 
     private var sampleEntry: MenuWidgetEntry {
@@ -109,7 +161,8 @@ struct MenuWidgetProvider: TimelineProvider {
             date: Date(),
             menus: menus,
             selectedIndex: max(0, menus.count - 1),
-            errorMessage: nil
+            errorMessage: nil,
+            shouldRetrySoon: false
         )
     }
 }
@@ -215,7 +268,6 @@ struct PangyoMenuWidgetView: View {
 @main
 struct PangyoMenuWidget: Widget {
     static let kind = WidgetSelectionStore.widgetKind
-    private static let fullMenuRoute = URL(string: "pangyo-menu://full-menu")!
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: Self.kind, provider: MenuWidgetProvider()) { entry in
@@ -224,7 +276,6 @@ struct PangyoMenuWidget: Widget {
                 .containerBackground(for: .widget) {
                     Color(red: 0.02, green: 0.24, blue: 0.36)
                 }
-                .widgetURL(Self.fullMenuRoute)
         }
         .configurationDisplayName("오늘의 메뉴")
         .description("판교캠의 금일 중식과 석식 메뉴를 표시합니다.")

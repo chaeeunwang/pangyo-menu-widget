@@ -18,12 +18,20 @@ public enum SKALAMenuClientError: LocalizedError {
 }
 
 public struct SKALAMenuClient: Sendable {
-    public static let menuPageURL = URL(string: "https://skala-lunch.ewkimhyunsu11.workers.dev/")!
     public static let endpointURL = URL(string: "https://skala-lunch.ewkimhyunsu11.workers.dev/api/menus/current")!
 
     private let session: URLSession
 
-    public init(session: URLSession = .shared) {
+    public init() {
+        let configuration = URLSessionConfiguration.default
+        configuration.waitsForConnectivity = true
+        configuration.requestCachePolicy = .reloadRevalidatingCacheData
+        configuration.timeoutIntervalForRequest = 12
+        configuration.timeoutIntervalForResource = 15
+        session = URLSession(configuration: configuration)
+    }
+
+    public init(session: URLSession) {
         self.session = session
     }
 
@@ -38,8 +46,8 @@ public struct SKALAMenuClient: Sendable {
 
     public func fetchWeek(now: Date = Date()) async throws -> [DailyMenu] {
         var request = URLRequest(url: Self.endpointURL)
-        request.cachePolicy = .reloadIgnoringLocalCacheData
-        request.timeoutInterval = 15
+        request.cachePolicy = .reloadRevalidatingCacheData
+        request.timeoutInterval = 12
         request.setValue("application/json", forHTTPHeaderField: "Accept")
 
         let (data, response) = try await session.data(for: request)
