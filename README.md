@@ -99,6 +99,7 @@ https://skala-lunch.ewkimhyunsu11.workers.dev/api/menus/current
 
 ## 문제 해결
 
+- macOS 업데이트 후 위젯이 사라졌지만 앱이 남아 있으면, 저장소 폴더에서 `./scripts/install.sh --repair`를 실행하세요. 다운로드나 앱 교체 없이 기존 앱의 서명을 검사하고 위젯을 재등록한 뒤 등록 여부를 확인합니다. 바탕화면 배치가 복원되지 않으면 **위젯 편집 → 오늘의 메뉴**에서 다시 추가하세요.
 - 다운로드 오류가 발생하면 인터넷 연결과 [GitHub Releases](https://github.com/chaeeunwang/pangyo-menu-widget/releases)를 확인하세요.
 - 위젯 목록에 보이지 않으면 `./scripts/install.sh`를 다시 실행한 뒤 위젯 편집 창을 다시 여세요.
 - 이전 메뉴가 남아 있으면 위젯을 제거한 뒤 다시 추가하세요.

@@ -177,7 +177,7 @@ struct PangyoMenuWidgetView: View {
 
             if entry.selectedMenu != nil { navigationButtons }
         }
-        .foregroundStyle(.white)
+        .foregroundStyle(.primary)
     }
 
     @ViewBuilder
@@ -200,7 +200,7 @@ struct PangyoMenuWidgetView: View {
     private func header(for menu: DailyMenu) -> some View {
         HStack(spacing: 10) {
             Text(Self.dateFormatter.string(from: menu.date))
-                .font(.title3.weight(.semibold))
+                .font(.title2.weight(.semibold))
                 .lineLimit(1)
 
             Spacer(minLength: 76)
@@ -222,7 +222,7 @@ struct PangyoMenuWidgetView: View {
                 label: "다음 날짜"
             )
         }
-        .foregroundStyle(.white.opacity(0.72))
+        .foregroundStyle(.secondary)
     }
 
     @ViewBuilder
@@ -251,14 +251,13 @@ struct PangyoMenuWidgetView: View {
     private func mealSection(title: String, symbol: String, menu: String?) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Label(title, systemImage: symbol)
-                .font(.headline)
+                .font(.title3.weight(.semibold))
 
             Divider()
-                .overlay(.white.opacity(0.2))
 
             Text(menu ?? "등록된 메뉴가 없습니다.")
-                .font(.callout)
-                .foregroundStyle(.white.opacity(menu == nil ? 0.65 : 1))
+                .font(.body)
+                .foregroundStyle(menu == nil ? Color.secondary : Color.primary)
                 .lineLimit(5)
                 .minimumScaleFactor(0.82)
                 .allowsTightening(true)
@@ -268,10 +267,6 @@ struct PangyoMenuWidgetView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            .white.opacity(0.11),
-            in: RoundedRectangle(cornerRadius: 12, style: .continuous)
-        )
     }
 
     private static let dateFormatter: DateFormatter = {
@@ -290,9 +285,8 @@ struct PangyoMenuWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: Self.kind, provider: MenuWidgetProvider()) { entry in
             PangyoMenuWidgetView(entry: entry)
-                .environment(\.colorScheme, .dark)
                 .containerBackground(for: .widget) {
-                    Color(red: 0.02, green: 0.24, blue: 0.36)
+                    Color.clear
                 }
         }
         .configurationDisplayName("오늘의 메뉴")

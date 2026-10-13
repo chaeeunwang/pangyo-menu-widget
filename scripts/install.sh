@@ -25,7 +25,44 @@ fail() {
   exit 1
 }
 
+validate_app() {
+  local app="$1"
+  local extension="$app/Contents/PlugIns/MenuWidgetExtension.appex"
+  [[ -d "$app" ]] || fail "PangyoMenu.app을 찾지 못했습니다: $app"
+  [[ -d "$extension" ]] || fail "앱에서 위젯 확장을 찾지 못했습니다."
+  local app_id extension_id
+  app_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app/Contents/Info.plist")
+  extension_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$extension/Contents/Info.plist")
+  [[ "$app_id" == "$bundle_identifier" ]] || fail "앱 식별자가 올바르지 않습니다."
+  [[ "$extension_id" == "$extension_identifier" ]] || fail "위젯 식별자가 올바르지 않습니다."
+  codesign --verify --deep --strict "$app" || fail "앱 코드 서명이 유효하지 않습니다."
+}
+
+register_installed_app() {
+  "$launch_services" -f -R "$installed_app"
+  /usr/bin/pluginkit -a "$installed_extension"
+  /usr/bin/open -g "$installed_app"
+
+  local attempt registered_extension
+  for attempt in {1..5}; do
+    while IFS= read -r registered_extension; do
+      if [[ "$registered_extension" == "$installed_extension" ]]; then
+        return 0
+      fi
+    done < <(
+      /usr/bin/pluginkit -m -A -D -vvv -i "$extension_identifier" \
+        | sed -n 's/^[[:space:]]*Path = //p'
+    )
+    sleep 1
+  done
+  fail "위젯 확장 등록을 확인하지 못했습니다. 앱은 보존되어 있습니다: $installed_app"
+}
+
 trap cleanup EXIT INT TERM
+
+if (( $# > 1 )) || [[ "${1:-}" != "" && "${1:-}" != "--repair" ]]; then
+  fail "사용법: $0 [--repair]"
+fi
 
 macos_major=$(sw_vers -productVersion | cut -d. -f1)
 if (( macos_major < 14 )); then
@@ -35,6 +72,16 @@ fi
 if [[ "$installed_app" != "$applications_dir/PangyoMenu.app" || \
       "$staging_app" != "$applications_dir/.PangyoMenu.installing.app" ]]; then
   fail "안전하지 않은 설치 경로입니다."
+fi
+
+if [[ "${1:-}" == "--repair" ]]; then
+  validate_app "$installed_app"
+  register_installed_app
+  killall chronod 2>/dev/null || true
+  killall NotificationCenter 2>/dev/null || true
+  print "위젯 재등록 확인 완료: $installed_app"
+  print "바탕화면에 나타나지 않으면 ‘위젯 편집’에서 ‘오늘의 메뉴’를 다시 추가하세요."
+  exit 0
 fi
 
 if [[ -n "${PANGYO_MENU_LOCAL_APP:-}" ]]; then
@@ -69,14 +116,7 @@ else
 fi
 
 source_extension="$source_app/Contents/PlugIns/MenuWidgetExtension.appex"
-[[ -d "$source_app" ]] || fail "배포 파일에서 PangyoMenu.app을 찾지 못했습니다."
-[[ -d "$source_extension" ]] || fail "앱에서 위젯 확장을 찾지 못했습니다."
-
-app_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$source_app/Contents/Info.plist")
-extension_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$source_extension/Contents/Info.plist")
-[[ "$app_id" == "$bundle_identifier" ]] || fail "앱 식별자가 올바르지 않습니다."
-[[ "$extension_id" == "$extension_identifier" ]] || fail "위젯 식별자가 올바르지 않습니다."
-codesign --verify --deep --strict "$source_app" || fail "앱 코드 서명이 유효하지 않습니다."
+validate_app "$source_app"
 
 # 같은 식별자의 개발용 빌드가 남아 있으면 macOS가 잘못된 위젯을 실행할 수 있습니다.
 while IFS= read -r registered_extension; do
@@ -112,8 +152,7 @@ fi
 
 mv "$staging_app" "$installed_app"
 "$launch_services" -gc
-"$launch_services" -f -R "$installed_app"
-/usr/bin/pluginkit -a "$installed_extension"
+register_installed_app
 
 killall chronod 2>/dev/null || true
 killall NotificationCenter 2>/dev/null || true
