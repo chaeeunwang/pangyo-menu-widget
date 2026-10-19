@@ -1,6 +1,6 @@
 # 판교캠 오늘의 메뉴 위젯
 
-판교캠의 금주 중식·석식을 macOS 바탕화면에서 확인하는 WidgetKit 위젯입니다. [SKALA Lunch](https://skala-lunch.ewkimhyunsu11.workers.dev/) 사이트의 공개 API에서 식단을 직접 가져오므로 별도의 로그인이나 인증 정보가 필요하지 않습니다.
+판교캠의 금주 중식·석식을 macOS 바탕화면에서 확인하는 WidgetKit 위젯입니다. [SKALA Lunch](https://lunch.mockaptilab.com/) 사이트의 공개 API에서 식단을 직접 가져오므로 별도의 로그인이나 인증 정보가 필요하지 않습니다.
 
 ## 주요 기능
 
@@ -92,7 +92,7 @@ scripts/package-release.sh    배포 ZIP과 체크섬 생성
 식단 데이터는 다음 공개 엔드포인트에서 직접 읽습니다.
 
 ```text
-https://skala-lunch.ewkimhyunsu11.workers.dev/api/menus/current
+https://lunch.mockaptilab.com/api/menus/current
 ```
 
 앱에는 Slack 연동 코드가 없으며 Slack 로그인, 워크스페이스 권한, API 토큰을 요구하지 않습니다. 일시적인 연결 오류에 대비해 최근 7일 이내에 성공적으로 받은 식단과 위젯에서 선택한 날짜만 Mac의 위젯 전용 저장소에 보관합니다. 식단 사이트가 장기간 중단되거나 응답 형식을 변경하면 위젯에서 메뉴를 불러오지 못할 수 있습니다.

@@ -18,7 +18,7 @@ public enum SKALAMenuClientError: LocalizedError {
 }
 
 public struct SKALAMenuClient: Sendable {
-    public static let endpointURL = URL(string: "https://skala-lunch.ewkimhyunsu11.workers.dev/api/menus/current")!
+    public static let endpointURL = URL(string: "https://lunch.mockaptilab.com/api/menus/current")!
 
     private let session: URLSession
 
